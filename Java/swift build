@@ -1,0 +1,9 @@
+# Initializes the CodeQL tools for scanning.
+- name: Initialize CodeQL
+- uses: github/codeql-action/init@v3
+  with:
+    languages: ${{ matrix.language }}
+    build-mode: manual
+- uses: github/codeql-action/analyze@v3
+  with:
+    category: "/language:${{ matrix.language }}"
