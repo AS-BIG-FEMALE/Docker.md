@@ -1,0 +1,1 @@
+docker pull jnorwood/helm-docs:latest && docker run --rm --volume "$(pwd)/charts:/helm-docs" -u $(id -u) jnorwood/helm-docs:latest
