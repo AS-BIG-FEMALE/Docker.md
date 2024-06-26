@@ -1,0 +1,39 @@
+const obj = {};
+// 1. Using a null prototype: no inherited properties
+const descriptor = Object.create(null);
+descriptor.value = "static";
+
+// not enumerable, not configurable, not writable as defaults
+Object.defineProperty(obj, "key", descriptor);
+
+// 2. Being explicit by using a throw-away object literal with all attributes present
+Object.defineProperty(obj, "key2", {
+  enumerable: false,
+  configurable: false,
+  writable: false,
+  value: "static",
+});
+
+// 3. Recycling same object
+function withValue(value) {
+  const d =
+    withValue.d ||
+    (withValue.d = {
+      enumerable: false,
+      writable: false,
+      configurable: false,
+      value,
+    });
+
+  // avoiding duplicate operation for assigning value
+  if (d.value !== value) d.value = value;
+
+  return d;
+}
+// and
+Object.defineProperty(obj, "key", withValue("static"));
+
+// if freeze is available, prevents adding or
+// removing the object prototype properties
+// (value, get, set, enumerable, writable, configurable)
+(Object.freeze || Object)(Object.prototype);
